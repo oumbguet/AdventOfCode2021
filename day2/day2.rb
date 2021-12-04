@@ -2,7 +2,6 @@ file = File.open("input", "r")
 
 data = file.readlines.map(&:chomp)
 
-# Object with two vars depth and position
 class Submarine
     attr_accessor :depth, :position
     
