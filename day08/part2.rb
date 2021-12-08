@@ -1,4 +1,4 @@
-file = File.open("test_input", "r")
+file = File.open("input", "r")
 data = file.readlines.map(&:chomp)
 
 class Line
@@ -18,27 +18,26 @@ class Line
     puts "sides: #{@sides}"
   end
 
-  def get_digit_by_length(length)
+  def get_set_by_length(length)
     @digits.each do |digit|
-        return digit if digit.length == length
+        return digit.split('').to_set if digit.length == length
     end
     return nil
   end
 
   def set_sides
-    var1 = get_digit_by_length(2)
-    sides[2], sides[5] = var1[0], var1[1]
+    var1 = get_set_by_length(2)
+    var4 = get_set_by_length(4)
+    var7 = get_set_by_length(3)
+    var8 = get_set_by_length(7)
 
-    var4 = get_digit_by_length(4)
-    sides[1], sides[3], sides[5] = var4[0], var4[2], var4[3]
+    a = var7 - var1
+    bd = var4 - var1
+    cf = var1
+    eg = var8 - var7 - var4
 
-    var7 = get_digit_by_length(3)
-    puts var7
-    sides[0] = var7[0]
 
-    var8 = get_digit_by_length(7)
-    puts var8
-    sides[4], sides[6] = var8[4], var8[6]
+    puts a, bd, cf, eg
   end
 
 end
@@ -48,4 +47,13 @@ lines = data.map { |line| Line.new(line) }
 
 
 lines[0].set_sides()
-lines[0].dump()
+# lines[0].dump()
+
+
+# C   4
+# F   4
+# B   2
+# D   2
+# A   2
+# E   1
+# G   1
