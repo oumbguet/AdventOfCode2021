@@ -1,4 +1,4 @@
-file = File.open("test_input", "r")
+file = File.open("input", "r")
 data = file.readlines.map(&:chomp)
 
 require 'colorize'
@@ -27,32 +27,29 @@ class Polymer
         tmp = Hash.new(0)
 
         @polymer.each do |k, v|
-            tmp[k[0] + @rules[k[0] + k[1]]] += 1
-            tmp[@rules[k[0] + k[1]] + k[1]] += 1
+            tmp[k[0] + @rules[k[0] + k[1]]] += v
+            tmp[@rules[k[0] + k[1]] + k[1]] += v
         end
         @polymer = tmp
     end
 
     def count_elems
-        count = 0
         elems = Hash.new(0)
 
         @polymer.each do |k, v|
-            count += 2 * v
             elems[k[0]] += v
             elems[k[1]] += v
         end
-        puts (count / 2).ceil
-        elems.map { |k, v| [k, (v.to_f / 2).ceil] }.to_h
+        higher = elems.map { |k, v| [k, (v.to_f / 2).ceil] }.to_h.sort_by { |k, v| v }.reverse[0][1]
+        lower = elems.map { |k, v| [k, (v.to_f / 2).ceil] }.to_h.sort_by { |k, v| v }[0][1]
+        higher - lower
     end
 end
 
 polymer = Polymer.new(data)
 
-0.upto(2) do |i|
+0.upto(39) do |i|
     polymer.replicate
-    puts "step #{i + 1}".green
-    polymer.dump
 end
 
 puts polymer.count_elems
